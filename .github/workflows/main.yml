@@ -10,6 +10,7 @@ on:
 
 jobs:
   creating-docker-image:
+      if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
       strategy:
          max-parallel: 1
       runs-on: ubuntu-latest
@@ -31,6 +32,6 @@ jobs:
             context: ./
             file: ./Dockerfile
             push: true
-            tags: aayushkumar2000/blognow-service-publish:1
+            tags: aayushkumar2000/blognow-service-publish:${{ env.TAG }}
        
       
