@@ -20,8 +20,10 @@ module.exports.createBlogPublishTable = async () => {
     try {
         let result = await con.promise().query(sql)
         const x = result[0].map((y) => y['Tables_in_blog_now'])
+		
+		console.log(x)
 
-        if (!x.includes('blogpublish')) {
+        if (!x.includes('BlogPublish')) {
             sql = `Create table BlogPublish (
             blogID varchar(40) PRIMARY KEY,
             blogContent TEXT NOT NULL,
