@@ -89,4 +89,4 @@ app.use('/blog', router);
 
 
 
-app.listen(8001, () => { console.log('listening on port 8001') });
+app.listen(3001, () => { console.log('listening on port 3001') });
