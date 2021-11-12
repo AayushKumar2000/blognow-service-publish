@@ -85,7 +85,7 @@ router.get('/getBlog',async (req,res)=>{
 
 
 
-app.use('/blog', router);
+app.use('/', router);
 
 
 
