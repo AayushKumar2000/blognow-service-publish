@@ -32,6 +32,7 @@ module.exports.createBlogPublishTable = async () => {
             visibilityType varchar(10) NOT NULL default 'PRIVATE',
             views int default 0,
             likes int default 0,
+            coverImage  varchar(250) NOT NULL,
             date varchar(15) NOT NULL
            )`
 
@@ -50,22 +51,22 @@ module.exports.createBlogPublishTable = async () => {
 
 
 
-module.exports.insertBlog = async (blogID,user, title,blogContent , type) => {
+module.exports.insertBlog = async (blogID, user, title, blogContent, type, coverImage) => {
 
     const date = new Date().toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: 'numeric' })
 
-    const sql = `INSERT INTO BlogPublish (blogID,user,blogTitle,blogContent,visibilityType,date) VALUES ('${blogID}','${user}','${title}','${blogContent}','${type}','${date}')`;
+    const sql = `INSERT INTO BlogPublish (blogID,user,blogTitle,blogContent,visibilityType,date,coverImage) VALUES ('${blogID}','${user}','${title}','${blogContent}','${type}','${date}','${coverImage}')`;
     const result = await con.promise().query(sql);
 
     return result[0].affectedRows
 
 }
 
-module.exports.insertBlog2 = async (blogId,user, title, blogContent, type) => {
+module.exports.insertBlog2 = async (blogId, user, title, blogContent, type, coverImage) => {
 
     const date = new Date().toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: 'numeric' })
 
-    const sql = `UPDATE BlogPublish SET blogTitle='${title}',blogContent='${blogContent}',visibilityType='${type}',date='${date}' WHERE blogID='${blogId}' `;
+    const sql = `UPDATE BlogPublish SET blogTitle='${title}',blogContent='${blogContent}',visibilityType='${type}',date='${date}', coverImage='${coverImage}' WHERE blogID='${blogId}' `;
     const result = await con.promise().query(sql);
 
     return result[0].affectedRows
@@ -86,6 +87,29 @@ module.exports.getBlog = async (blogID) => {
     return rows[0];
 }
 
+module.exports.getAllBlogs = async () => {
+   
+    const sql = `SELECT * FROM BlogPublish`;
+    const [rows] = await con.promise().query(sql)
+    console.log(rows)
+    return rows;
+}
+
+module.exports.getUserBlogs = async (user) => {
+
+    const sql = `SELECT * FROM BlogPublish where user='${user}'`;
+    const [rows] = await con.promise().query(sql)
+    console.log(rows)
+    return rows;
+}
+
+module.exports.getBookmarkBlogs = async (blogList) => {
+    console.log(String(JSON.parse(blogList)))
+    const sql =  `SELECT * FROM BlogPublish WHERE blogID in (${String(JSON.parse(blogList))})`;
+    const [rows] = await con.promise().query(sql)
+    console.log(rows)
+    return rows;
+}
 
 
 
