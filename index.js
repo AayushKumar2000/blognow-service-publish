@@ -84,14 +84,14 @@ router.put('/update-like-counter',bodyParser,async (req,res)=>{
 
 
 router.get('/getAllBlogs', async (req,res)=>{
-    const {blogList} = req.query;
+    const {blogList,user} = req.query;
     console.log(blogList)
     let result;
     try {
         if(blogList)
              result = await database.getBookmarkBlogs(blogList);
             else
-             result = await database.getAllBlogs();
+            result = await database.getAllBlogs(user);
         console.log(result)
         res.json(result);
     } catch (e) {

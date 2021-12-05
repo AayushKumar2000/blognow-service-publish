@@ -80,16 +80,18 @@ const viewCounterUpdate = (blogID)=>{
 
 
 module.exports.getBlog = async (blogID) => {
-    const sql = `SELECT * FROM BlogPublish WHERE  blogID='${blogID}'`;
+    const sql = `SELECT  BlogPublish.*, User.name as userName  FROM BlogPublish
+ INNER JOIN User ON BlogPublish.user = User.email AND BlogPublish.blogID='${blogID}'`;
     const [rows] = await con.promise().query(sql)
     viewCounterUpdate(blogID)
      console.log(rows[0])
     return rows[0];
 }
 
-module.exports.getAllBlogs = async () => {
+module.exports.getAllBlogs = async (user) => {
    
-    const sql = `SELECT * FROM BlogPublish`;
+ const sql = `SELECT  BlogPublish.*, User.name as userName  FROM BlogPublish
+INNER JOIN User ON BlogPublish.user = User.email AND User.email != '${user}'`;
     const [rows] = await con.promise().query(sql)
     console.log(rows)
     return rows;
@@ -97,7 +99,8 @@ module.exports.getAllBlogs = async () => {
 
 module.exports.getUserBlogs = async (user) => {
 
-    const sql = `SELECT * FROM BlogPublish where user='${user}'`;
+const sql = `SELECT  BlogPublish.*, User.name as userName  FROM BlogPublish
+INNER JOIN User ON BlogPublish.user = User.email AND BlogPublish.user='${user}'`;
     const [rows] = await con.promise().query(sql)
     console.log(rows)
     return rows;
@@ -105,7 +108,8 @@ module.exports.getUserBlogs = async (user) => {
 
 module.exports.getBookmarkBlogs = async (blogList) => {
     console.log(String(JSON.parse(blogList)))
-    const sql =  `SELECT * FROM BlogPublish WHERE blogID in (${String(JSON.parse(blogList))})`;
+const sql =  `SELECT  BlogPublish.*, User.name as userName  FROM BlogPublish
+INNER JOIN User ON BlogPublish.user = User.email AND BlogPublish.blogID  in (${String(JSON.parse(blogList))})`;
     const [rows] = await con.promise().query(sql)
     console.log(rows)
     return rows;
