@@ -101,6 +101,19 @@ router.get('/getAllBlogs', async (req,res)=>{
 
 })
 
+router.put('/removeBlog',async (req,res)=>{
+    const { user,blogID } = req.query;
+
+    try {
+        let result = await database.removeBlog(user,blogID);
+        console.log(result)
+        res.json(result);
+    } catch (e) {
+        console.error(e);
+        res.status(404).json({ "mess": "blog not found!" })
+    }
+})
+
 router.get('/getUserBlogs', async (req, res) => {
     const { user } = req.query;
     console.log(user)

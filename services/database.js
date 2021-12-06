@@ -88,6 +88,15 @@ module.exports.getBlog = async (blogID) => {
     return rows[0];
 }
 
+
+module.exports.removeBlog = async (user,blogID) => {
+    const sql = `DELETE FROM BlogPublish where user='${user} AND blogID='${blogID}'`;
+    const [rows] = await con.promise().query(sql)
+    viewCounterUpdate(blogID)
+    console.log(rows[0])
+    return rows[0];
+}
+
 module.exports.getAllBlogs = async (user) => {
    
  const sql = `SELECT  BlogPublish.*, User.name as userName  FROM BlogPublish
