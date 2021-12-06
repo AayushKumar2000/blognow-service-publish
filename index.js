@@ -101,7 +101,8 @@ router.get('/getAllBlogs', async (req,res)=>{
 
 })
 
-router.put('/removeBlog',async (req,res)=>{
+router.put('/removeBlog',bodyParser,async (req,res)=>{
+    console.log(req.body)
     const { user,blogID } = req.body;
 
     try {
