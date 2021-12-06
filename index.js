@@ -102,7 +102,7 @@ router.get('/getAllBlogs', async (req,res)=>{
 })
 
 router.put('/removeBlog',async (req,res)=>{
-    const { user,blogID } = req.query;
+    const { user,blogID } = req.body;
 
     try {
         let result = await database.removeBlog(user,blogID);

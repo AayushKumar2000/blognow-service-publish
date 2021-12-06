@@ -90,7 +90,7 @@ module.exports.getBlog = async (blogID) => {
 
 
 module.exports.removeBlog = async (user,blogID) => {
-    const sql = `DELETE FROM BlogPublish where user='${user} AND blogID='${blogID}'`;
+    const sql = `DELETE FROM BlogPublish where user='${user}' AND blogID='${blogID}'`;
     const [rows] = await con.promise().query(sql)
     viewCounterUpdate(blogID)
     console.log(rows[0])
